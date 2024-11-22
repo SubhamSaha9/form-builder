@@ -5,6 +5,8 @@ import { Button } from "./components/ui/button";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import Form from "./components/core/Dashboard/Form";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,6 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
+        <Route element={<Dashboard />}>
+          <Route path="/dashboard/forms" element={<Form />} />
+        </Route>
       </Routes>
     </div>
   );

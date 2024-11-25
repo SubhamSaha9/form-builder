@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const cors = require("cors");
 const { connect } = require("./config/database");
+const userRoute = require("./routes/auth");
 
 connect();
 
@@ -15,6 +16,7 @@ app.use(
     })
 );
 
+app.use("/api/v1/auth", userRoute)
 app.get("/", (req, res) => {
     return res.json({
         success: true,

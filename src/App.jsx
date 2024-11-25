@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Form from "./components/core/Dashboard/Form";
+import EditForm from "./pages/EditForm";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,7 @@ function App() {
         <Route element={<Dashboard />}>
           <Route path="/dashboard/forms" element={<Form />} />
         </Route>
+        <Route path="/forms/:formId" element={<EditForm />} />
       </Routes>
     </div>
   );

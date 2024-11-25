@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { Loader2, PlusIcon } from "lucide-react";
 import { aiChatSession } from "@/utils/AiModel";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const PROMPT =
-  " On the basis of description please give form in json format with form title, form subheading with form having Form field, form name, placeholder name, and form label, fieldType, field required In Json format";
+  " On Basis of description create JSON form with formTitle, formHeading along with fieldName, FieldTitle,FieldType, Placeholder, label , required fields, and checkbox and select field type options will be in array only and in JSON format";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const CreateForm = () => {
@@ -71,7 +71,7 @@ const CreateForm = () => {
                   Cancel
                 </Button>
                 <Button onClick={handleCreateForm} disabled={loading}>
-                  Create
+                  {loading ? <Loader2 className="animate-spin" /> : "Create"}
                 </Button>
               </div>
             </DialogDescription>

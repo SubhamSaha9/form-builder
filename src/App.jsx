@@ -20,7 +20,7 @@ function App() {
         <Route element={<Dashboard />}>
           <Route path="/dashboard/forms" element={<Form />} />
         </Route>
-        <Route path="/forms/:formId" element={<EditForm />} />
+        <Route path="/edit-form/:formId" element={<EditForm />} />
       </Routes>
     </div>
   );

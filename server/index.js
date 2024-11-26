@@ -6,6 +6,7 @@ const port = process.env.PORT || 8080;
 const cors = require("cors");
 const { connect } = require("./config/database");
 const userRoute = require("./routes/auth");
+const formRoute = require("./routes/form");
 
 connect();
 
@@ -19,6 +20,7 @@ app.use(
 );
 
 app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/forms", formRoute);
 app.get("/", (req, res) => {
     return res.json({
         success: true,

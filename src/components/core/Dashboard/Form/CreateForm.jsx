@@ -14,6 +14,7 @@ import { aiChatSession } from "@/utils/AiModel";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const PROMPT =
   " On Basis of description create JSON form with formTitle, formHeading along with fieldName, FieldTitle,FieldType, Placeholder, label , required fields, and checkbox and select field type options will be in array only and in JSON format";
 
@@ -23,6 +24,8 @@ const CreateForm = () => {
   const [open, setOpen] = useState(false);
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
+
+  const { token } = useSelector((state) => state.auth);
 
   const handleCreateForm = async () => {
     setLoading(true);
@@ -35,13 +38,17 @@ const CreateForm = () => {
         toast.error("Something went wrong!!");
         return;
       }
-      console.log(result.response.text());
-      // const {data} = await axios.post(`${BASE_URL}/forms/create-form`, {form: result.response.text()}, {headers: {Authorization : `Bearer token`}});
+      const output = JSON.parse(result.response.text())[0];
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/create-form`,
+        { form: JSON.stringify(output) },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       if (!data.success) {
         toast.error(data.message);
         return;
       }
-      navigate(`edit-form/${data.data._id}`);
+      navigate(`/edit-form/${data.data._id}`);
     } catch (error) {
       toast.error(error.message);
       console.log(error);

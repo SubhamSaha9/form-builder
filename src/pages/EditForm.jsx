@@ -35,15 +35,17 @@ const EditForm = () => {
   }, []);
   return (
     <div className="p-5">
-      <h2
-        className="flex gap-2 items-center my-5 cursor-pointer hover:font-bold"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeftCircle /> Back
-      </h2>
+      <div className=" hover:scale-y-125 transition-all delay-75">
+        <h2
+          className="flex gap-2 items-center my-5 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeftCircle /> Back
+        </h2>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 border rounded-lg shadow-md"></div>
-        <div className="md:col-span-2 border rounded-lg p-5 h-screen flex items-center justify-center">
+        <div className="md:col-span-2 border rounded-lg p-5 flex items-center justify-center">
           <FormUi jsonForm={jsonForm} />
         </div>
       </div>

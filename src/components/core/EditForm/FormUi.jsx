@@ -160,7 +160,10 @@ const FormUi = ({ jsonForm }) => {
               </div>
             )}
             <div className="">
-              <FieldEdit />
+              <FieldEdit
+                defaultValue={field}
+                onUpdate={(value) => console.log(value)}
+              />
             </div>
           </div>
         ))}

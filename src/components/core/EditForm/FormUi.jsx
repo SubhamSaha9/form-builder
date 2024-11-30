@@ -24,10 +24,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FieldEdit from "./FieldEdit";
 
-const FormUi = ({ jsonForm }) => {
+const FormUi = ({ jsonForm, onFormUpdate, deleteField }) => {
   const [date, setDate] = useState();
   return (
-    <div className="border p-5 md:w-[600px] rounded-lg">
+    <div className="border p-5 md:w-[450px] rounded-lg">
       <h2 className="font-bold text-center text-2xl text-primary">
         {jsonForm?.formTitle}
       </h2>
@@ -116,10 +116,7 @@ const FormUi = ({ jsonForm }) => {
             ) : field.fieldType === "checkbox" ? (
               <div className="my-3 w-full flex items-center gap-4">
                 {!field?.options && <Checkbox className="h-1 w-1" />}
-                <label
-                  htmlFor={field?.fieldName}
-                  className="text-xs text-gray-500"
-                >
+                <label htmlFor={field?.label} className="text-xs text-gray-500">
                   {field?.label}
                 </label>
                 {field?.options &&
@@ -162,7 +159,8 @@ const FormUi = ({ jsonForm }) => {
             <div className="">
               <FieldEdit
                 defaultValue={field}
-                onUpdate={(value) => console.log(value)}
+                onUpdate={(value) => onFormUpdate(value, i)}
+                deleteField={() => deleteField(i)}
               />
             </div>
           </div>

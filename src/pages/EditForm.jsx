@@ -13,6 +13,8 @@ const EditForm = () => {
   const navigate = useNavigate();
 
   const [jsonForm, setJsonForm] = useState();
+  const [updateTrigger, setUpdateTrigger] = useState();
+
   const getFormData = async () => {
     try {
       const { data } = await axios.get(`${BASE_URL}/forms/${formId}`, {
@@ -22,13 +24,60 @@ const EditForm = () => {
         toast.error(data.message);
         return;
       }
-
       setJsonForm(JSON.parse(data.data.form));
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
     }
   };
+
+  const onFormUpdate = (value, idx) => {
+    jsonForm.fields[idx].label = value.label
+      ? value.label
+      : jsonForm.fields[idx].label;
+    if (jsonForm?.fields[idx]?.placeholder) {
+      jsonForm.fields[idx].placeholder = value.placeholder
+        ? value.placeholder
+        : jsonForm.fields[idx].placeholder;
+    }
+    setUpdateTrigger(true);
+  };
+
+  const deleteField = (idx) => {
+    const result = jsonForm.fields.filter((field, i) => i !== idx);
+    jsonForm.fields = result;
+    setUpdateTrigger(true);
+  };
+
+  const updateJsonInDB = async () => {
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/edit-form`,
+        { formId: formId, form: JSON.stringify(jsonForm) },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+      setUpdateTrigger(false);
+      toast.success(data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+      setUpdateTrigger(false);
+    }
+  };
+
+  useEffect(() => {
+    if (updateTrigger) {
+      setJsonForm(jsonForm);
+      updateJsonInDB();
+    }
+  }, [updateTrigger]);
 
   useEffect(() => {
     getFormData();
@@ -46,7 +95,11 @@ const EditForm = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 border rounded-lg shadow-md"></div>
         <div className="md:col-span-2 border rounded-lg p-5 flex items-center justify-center">
-          <FormUi jsonForm={jsonForm} />
+          <FormUi
+            jsonForm={jsonForm}
+            onFormUpdate={onFormUpdate}
+            deleteField={deleteField}
+          />
         </div>
       </div>
     </div>

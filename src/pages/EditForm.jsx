@@ -16,6 +16,7 @@ const EditForm = () => {
   const [jsonForm, setJsonForm] = useState();
   const [updateTrigger, setUpdateTrigger] = useState();
   const [selectedTheme, setSelectedTheme] = useState("light");
+  const [selectedBackground, setSelectedBackground] = useState();
 
   const getFormData = async () => {
     try {
@@ -96,9 +97,15 @@ const EditForm = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 border rounded-lg shadow-md">
-          <Controller setSelectedTheme={setSelectedTheme} />
+          <Controller
+            setSelectedTheme={setSelectedTheme}
+            selectedBackground={(value) => setSelectedBackground(value)}
+          />
         </div>
-        <div className="md:col-span-2 border rounded-lg p-5 flex items-center justify-center">
+        <div
+          className="md:col-span-2 border rounded-lg p-5 flex items-center justify-center"
+          style={{ backgroundImage: selectedBackground }}
+        >
           <FormUi
             jsonForm={jsonForm}
             onFormUpdate={onFormUpdate}

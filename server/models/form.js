@@ -9,6 +9,15 @@ const formSchema = new mongoose.Schema({
     form: {
         type: String,
         required: true,
+    },
+    theme: {
+        type: String,
+    },
+    background: {
+        type: String,
+    },
+    style: {
+        type: String,
     }
 },
     { timestamps: true }

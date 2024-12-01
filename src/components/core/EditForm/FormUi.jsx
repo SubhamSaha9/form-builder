@@ -24,10 +24,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FieldEdit from "./FieldEdit";
 
-const FormUi = ({ jsonForm, onFormUpdate, deleteField }) => {
+const FormUi = ({ jsonForm, onFormUpdate, deleteField, selectedTheme }) => {
   const [date, setDate] = useState();
   return (
-    <div className="border p-5 md:w-[450px] rounded-lg">
+    <div
+      className="border p-5 md:w-[450px] rounded-lg"
+      data-theme={selectedTheme}
+    >
       <h2 className="font-bold text-center text-2xl text-primary">
         {jsonForm?.formTitle}
       </h2>
@@ -165,6 +168,7 @@ const FormUi = ({ jsonForm, onFormUpdate, deleteField }) => {
             </div>
           </div>
         ))}
+      <button className="btn btn-primary">Submit</button>
     </div>
   );
 };

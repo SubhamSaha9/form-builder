@@ -75,6 +75,27 @@ const EditForm = () => {
     }
   };
 
+  const updateControllerField = async (value, field) => {
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/edit-field`,
+        { formId: formId, field: value },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+      toast.success(data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     if (updateTrigger) {
       setJsonForm(jsonForm);
@@ -98,7 +119,10 @@ const EditForm = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 border rounded-lg shadow-md">
           <Controller
-            setSelectedTheme={setSelectedTheme}
+            selectedTheme={(value) => {
+              setSelectedTheme(value);
+              updateControllerField(value, "theme");
+            }}
             selectedBackground={(value) => setSelectedBackground(value)}
           />
         </div>

@@ -10,13 +10,13 @@ import { themeData } from "@/data/theme";
 import { gradientBg } from "@/data/gradientBg";
 import { Button } from "@/components/ui/button";
 
-const Controller = ({ setSelectedTheme, selectedBackground }) => {
+const Controller = ({ selectedTheme, selectedBackground }) => {
   const [showMore, setShowMore] = useState(6);
   return (
     <div>
       {/* Theme selection controller */}
       <h2 className="my-1">Theme</h2>
-      <Select onValueChange={(value) => setSelectedTheme(value)}>
+      <Select onValueChange={(value) => selectedTheme(value)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>

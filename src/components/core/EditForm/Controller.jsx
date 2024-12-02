@@ -10,13 +10,21 @@ import { themeData } from "@/data/theme";
 import { gradientBg } from "@/data/gradientBg";
 import { Button } from "@/components/ui/button";
 
-const Controller = ({ selectedTheme, selectedBackground }) => {
+const Controller = ({
+  selectedTheme,
+  selectedBackground,
+  defaultTheme,
+  defaultBG,
+}) => {
   const [showMore, setShowMore] = useState(6);
   return (
     <div>
       {/* Theme selection controller */}
       <h2 className="my-1">Theme</h2>
-      <Select onValueChange={(value) => selectedTheme(value)}>
+      <Select
+        defaultValue={defaultTheme && defaultTheme}
+        onValueChange={(value) => selectedTheme(value)}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
@@ -58,7 +66,10 @@ const Controller = ({ selectedTheme, selectedBackground }) => {
               <div
                 key={i}
                 onClick={() => selectedBackground(bg.gradient)}
-                className="w-full h-[70px] rounded-lg hover:border-2 hover:border-black flex items-center justify-center cursor-pointer"
+                className={`w-full h-[70px] rounded-lg hover:border-2 hover:border-black flex items-center justify-center cursor-pointer ${
+                  defaultBG === bg.gradient &&
+                  "border-dashed border-[3px] border-black"
+                }`}
                 style={{ background: bg.gradient }}
               >
                 {i === 0 && "None"}

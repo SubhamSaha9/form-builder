@@ -28,6 +28,8 @@ const EditForm = () => {
         return;
       }
       setJsonForm(JSON.parse(data.data.form));
+      setSelectedTheme(data.data.theme ? data.data.theme : "light");
+      setSelectedBackground(data.data.background && data.data.background);
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
@@ -79,7 +81,7 @@ const EditForm = () => {
     try {
       const { data } = await axios.post(
         `${BASE_URL}/forms/edit-field`,
-        { formId: formId, field: value },
+        { formId: formId, field: field, value: value },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -123,7 +125,12 @@ const EditForm = () => {
               setSelectedTheme(value);
               updateControllerField(value, "theme");
             }}
-            selectedBackground={(value) => setSelectedBackground(value)}
+            selectedBackground={(value) => {
+              setSelectedBackground(value);
+              updateControllerField(value, "background");
+            }}
+            defaultTheme={selectedTheme}
+            defaultBG={selectedBackground}
           />
         </div>
         <div

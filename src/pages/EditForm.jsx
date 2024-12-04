@@ -1,7 +1,8 @@
 import Controller from "@/components/core/EditForm/Controller";
 import FormUi from "@/components/core/EditForm/FormUi";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { ArrowLeftCircle } from "lucide-react";
+import { ArrowLeftCircle, Share2, SquareArrowOutUpRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -112,13 +113,21 @@ const EditForm = () => {
   }, []);
   return (
     <div className="p-5">
-      <div className=" hover:scale-y-125 transition-all delay-75">
+      <div className=" flex justify-between items-center">
         <h2
-          className="flex gap-2 items-center my-5 cursor-pointer"
+          className="flex gap-2 items-center my-5 cursor-pointer hover:scale-105 transition-all delay-75 "
           onClick={() => navigate(-1)}
         >
           <ArrowLeftCircle /> Back
         </h2>
+        <div className="flex gap-2">
+          <Button className="flex gap-2">
+            <SquareArrowOutUpRight className="h-5 w-5" /> Live Preview
+          </Button>
+          <Button className="flex gap-2 bg-green-600 hover:bg-green-700">
+            <Share2 /> Share
+          </Button>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 border rounded-lg shadow-md">

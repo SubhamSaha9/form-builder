@@ -24,12 +24,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FieldEdit from "./FieldEdit";
 
-const FormUi = ({ jsonForm, onFormUpdate, deleteField, selectedTheme }) => {
+const FormUi = ({
+  jsonForm,
+  onFormUpdate,
+  deleteField,
+  selectedTheme,
+  selectedStyle,
+}) => {
   const [date, setDate] = useState();
   return (
     <div
       className="border p-5 md:w-[450px] rounded-lg"
       data-theme={selectedTheme}
+      style={{
+        boxShadow: selectedStyle?.key == "boxshadow" && "5px 5px 0px black",
+        border: selectedStyle?.key == "border" && selectedStyle.value,
+      }}
     >
       <h2 className="font-bold text-center text-2xl text-primary">
         {jsonForm?.formTitle}

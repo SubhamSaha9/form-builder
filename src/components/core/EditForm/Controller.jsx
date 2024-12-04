@@ -9,12 +9,15 @@ import {
 import { themeData } from "@/data/theme";
 import { gradientBg } from "@/data/gradientBg";
 import { Button } from "@/components/ui/button";
+import { borderStyles } from "@/data/styles";
 
 const Controller = ({
   selectedTheme,
   selectedBackground,
+  selectedStyle,
   defaultTheme,
   defaultBG,
+  defaultBorder,
 }) => {
   const [showMore, setShowMore] = useState(6);
   return (
@@ -85,6 +88,32 @@ const Controller = ({
       >
         {showMore > 6 ? "Show Less" : "Show More"}
       </Button>
+
+      {/* Style Selection Controller  */}
+      <div>
+        <label>Style</label>
+        <div className="grid grid-cols-3  gap-3">
+          {borderStyles.map((item, index) => (
+            <div key={index}>
+              <div
+                className={`cursor-pointer hover:border-2 rounded-lg ${
+                  defaultBorder?.name == item.name &&
+                  "border-dashed border-[3px] border-black"
+                }`}
+                onClick={() => selectedStyle(item)}
+              >
+                <img
+                  src={item.img}
+                  width={600}
+                  height={80}
+                  className="rounded-lg"
+                />
+              </div>
+              <h2 className="text-center">{item.name}</h2>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

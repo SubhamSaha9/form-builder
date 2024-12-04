@@ -17,6 +17,7 @@ const EditForm = () => {
   const [updateTrigger, setUpdateTrigger] = useState();
   const [selectedTheme, setSelectedTheme] = useState("light");
   const [selectedBackground, setSelectedBackground] = useState();
+  const [selectedStyle, setSelectedStyle] = useState();
 
   const getFormData = async () => {
     try {
@@ -30,6 +31,7 @@ const EditForm = () => {
       setJsonForm(JSON.parse(data.data.form));
       setSelectedTheme(data.data.theme ? data.data.theme : "light");
       setSelectedBackground(data.data.background && data.data.background);
+      setSelectedStyle(data.data.style && JSON.parse(data.data.style));
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
@@ -129,8 +131,13 @@ const EditForm = () => {
               setSelectedBackground(value);
               updateControllerField(value, "background");
             }}
+            selectedStyle={(value) => {
+              setSelectedStyle(value);
+              updateControllerField(JSON.stringify(value), "style");
+            }}
             defaultTheme={selectedTheme}
             defaultBG={selectedBackground}
+            defaultBorder={selectedStyle}
           />
         </div>
         <div
@@ -142,6 +149,7 @@ const EditForm = () => {
             onFormUpdate={onFormUpdate}
             deleteField={deleteField}
             selectedTheme={selectedTheme}
+            selectedStyle={selectedStyle}
           />
         </div>
       </div>

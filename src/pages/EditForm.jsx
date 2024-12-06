@@ -121,7 +121,10 @@ const EditForm = () => {
           <ArrowLeftCircle /> Back
         </h2>
         <div className="flex gap-2">
-          <Button className="flex gap-2">
+          <Button
+            className="flex gap-2"
+            onClick={() => navigate(`/ai-form/${formId}`)}
+          >
             <SquareArrowOutUpRight className="h-5 w-5" /> Live Preview
           </Button>
           <Button className="flex gap-2 bg-green-600 hover:bg-green-700">
@@ -159,6 +162,7 @@ const EditForm = () => {
             deleteField={deleteField}
             selectedTheme={selectedTheme}
             selectedStyle={selectedStyle}
+            editable={true}
           />
         </div>
       </div>

@@ -30,6 +30,7 @@ const FormUi = ({
   deleteField,
   selectedTheme,
   selectedStyle,
+  editable,
 }) => {
   const [date, setDate] = useState();
   return (
@@ -169,13 +170,15 @@ const FormUi = ({
                 />
               </div>
             )}
-            <div className="">
-              <FieldEdit
-                defaultValue={field}
-                onUpdate={(value) => onFormUpdate(value, i)}
-                deleteField={() => deleteField(i)}
-              />
-            </div>
+            {editable && (
+              <div className="">
+                <FieldEdit
+                  defaultValue={field}
+                  onUpdate={(value) => onFormUpdate(value, i)}
+                  deleteField={() => deleteField(i)}
+                />
+              </div>
+            )}
           </div>
         ))}
       <button className="btn btn-primary">Submit</button>

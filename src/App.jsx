@@ -8,6 +8,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Form from "./components/core/Dashboard/Form";
 import EditForm from "./pages/EditForm";
+import AiForm from "./pages/AiForm";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,6 +22,7 @@ function App() {
           <Route path="/dashboard/forms" element={<Form />} />
         </Route>
         <Route path="/edit-form/:formId" element={<EditForm />} />
+        <Route path="/ai-form/:formId" element={<AiForm />} />
       </Routes>
     </div>
   );

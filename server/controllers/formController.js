@@ -1,4 +1,5 @@
 const Form = require("../models/form");
+const Response = require("../models/response");
 
 exports.createForm = async (req, res) => {
     const { form } = req.body;
@@ -108,6 +109,35 @@ exports.editFormField = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.submitForm = async (req, res) => {
+    try {
+        const { formData, formId } = req.body;
+        if (!formData || !formId) {
+            return res.status(201).json({
+                success: false,
+                message: "All Fields are required",
+            });
+        }
+
+        const formResponse = await Response.create({
+            jsonResponse: formData,
+            createdBy: req.user.id,
+            formRef: formId,
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Response submitted."
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json(500).json({
             success: false,
             message: error.message
         })

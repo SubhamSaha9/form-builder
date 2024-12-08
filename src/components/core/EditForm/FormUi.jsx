@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Select,
@@ -23,6 +23,12 @@ import { format } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FieldEdit from "./FieldEdit";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const FormUi = ({
   jsonForm,
@@ -33,8 +39,75 @@ const FormUi = ({
   editable,
 }) => {
   const [date, setDate] = useState();
+  const [formData, setFormData] = useState();
+  const { token } = useSelector((state) => state.auth);
+  const { formId } = useParams();
+  let formRef = useRef();
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const hadleSelectChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleCheckboxChange = (fieldName, itemName, value) => {
+    const list = formData?.[fieldName] ? formData?.[fieldName] : [];
+
+    if (value) {
+      list.push({
+        label: itemName,
+        value: value,
+      });
+      setFormData({
+        ...formData,
+        [fieldName]: list,
+      });
+    } else {
+      const result = list.filter((item) => item.label == itemName);
+      setFormData({
+        ...formData,
+        [fieldName]: result,
+      });
+    }
+  };
+
+  const onFormSubmit = async (e) => {
+    e.preventDefault();
+    const toastId = toast.loading("Submitting form...");
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/submit-form`,
+        { formData: JSON.stringify(formData), formId: formId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      formRef.reset();
+      toast.dismiss(toastId);
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+
+      toast.success(data.message);
+    } catch (error) {
+      toast.dismiss(toastId);
+      console.log(error);
+      toast.error(error?.response?.data.message);
+    }
+  };
   return (
-    <div
+    <form
+      onSubmit={onFormSubmit}
       className="border p-5 md:w-[450px] rounded-lg"
       data-theme={selectedTheme}
       style={{
@@ -59,7 +132,10 @@ const FormUi = ({
                 >
                   {field?.label}
                 </label>
-                <Select>
+                <Select
+                  required={field?.required}
+                  onValueChange={(v) => hadleSelectChange(field.fieldName, v)}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={field?.label} />
                   </SelectTrigger>
@@ -80,7 +156,7 @@ const FormUi = ({
                 >
                   {field?.label}
                 </label>
-                <RadioGroup>
+                <RadioGroup required={field?.required}>
                   {field?.options.map(
                     (option,
                     (idx) => (
@@ -88,6 +164,9 @@ const FormUi = ({
                         <RadioGroupItem
                           value={option.Label}
                           id={option.Label}
+                          onClick={() =>
+                            hadleSelectChange(field.fieldName, option.label)
+                          }
                         />
                         <Label htmlFor={option.Label}>{option.Label}</Label>
                       </div>
@@ -123,20 +202,37 @@ const FormUi = ({
                       onSelect={setDate}
                       initialFocus
                       className="text-black"
+                      onDayClick={(v) => hadleSelectChange(field.fieldName, v)}
                     />
                   </PopoverContent>
                 </Popover>
               </div>
             ) : field.fieldType === "checkbox" ? (
               <div className="my-3 w-full flex items-center gap-4">
-                {!field?.options && <Checkbox className="h-1 w-1" />}
+                {!field?.options && (
+                  <Checkbox
+                    className="h-1 w-1"
+                    onCheckedChange={(v) =>
+                      handleCheckboxChange(field?.label, field?.label, v)
+                    }
+                  />
+                )}
                 <label htmlFor={field?.label} className="text-xs text-gray-500">
                   {field?.label}
                 </label>
                 {field?.options &&
                   field.options.map((option, idx) => (
                     <div className="flex gap-2 items-center">
-                      <Checkbox className="h-1 w-1" />
+                      <Checkbox
+                        className="h-1 w-1"
+                        onCheckedChange={(v) =>
+                          handleCheckboxChange(
+                            field?.label,
+                            option.label ? option.label : option,
+                            v
+                          )
+                        }
+                      />
                       <h2>{option.label}</h2>
                     </div>
                   ))}
@@ -153,6 +249,8 @@ const FormUi = ({
                   type={field?.fieldType}
                   name={field?.fieldName}
                   placeholder={field?.placeholder}
+                  required={field?.required}
+                  onChange={(e) => handleInputChange(e)}
                 />
               </div>
             ) : (
@@ -166,7 +264,9 @@ const FormUi = ({
                 <Input
                   type={field?.fieldType}
                   name={field?.fieldName}
+                  required={field?.required}
                   placeholder={field?.placeholder}
+                  onChange={(e) => handleInputChange(e)}
                 />
               </div>
             )}
@@ -181,8 +281,10 @@ const FormUi = ({
             )}
           </div>
         ))}
-      <button className="btn btn-primary">Submit</button>
-    </div>
+      <button type="submit" className="btn btn-primary">
+        Submit
+      </button>
+    </form>
   );
 };
 

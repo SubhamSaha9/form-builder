@@ -44,7 +44,7 @@ const Register = ({ setDefaultPage }) => {
       setLoading(false);
       console.log(error);
       toast.dismiss(toastId);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data.message || error.message);
     }
   };
 

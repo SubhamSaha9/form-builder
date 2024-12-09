@@ -102,7 +102,7 @@ const FormUi = ({
     } catch (error) {
       toast.dismiss(toastId);
       console.log(error);
-      toast.error(error?.response?.data.message);
+      toast.error(error?.response?.data.message || error.message);
     }
   };
   return (

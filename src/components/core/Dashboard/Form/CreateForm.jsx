@@ -50,7 +50,7 @@ const CreateForm = () => {
       }
       navigate(`/edit-form/${data.data._id}`);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data.message || error.message);
       console.log(error);
     }
     setLoading(false);

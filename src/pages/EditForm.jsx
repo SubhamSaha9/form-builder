@@ -38,7 +38,7 @@ const EditForm = () => {
       setSelectedBackground(data.data.background && data.data.background);
       setSelectedStyle(data.data.style && JSON.parse(data.data.style));
     } catch (error) {
-      toast.error(error?.response?.data.message);
+      toast.error(error?.response?.data.message || error.message);
       console.log(error);
     }
   };
@@ -79,7 +79,7 @@ const EditForm = () => {
       toast.success(data.message);
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || error.message);
       setUpdateTrigger(false);
     }
   };
@@ -101,7 +101,7 @@ const EditForm = () => {
       toast.success(data.message);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data.message || error.message);
     }
   };
 

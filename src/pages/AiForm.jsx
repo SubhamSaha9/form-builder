@@ -15,9 +15,13 @@ const AiForm = () => {
 
   const getFormData = async () => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/forms/${formId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/get-form`,
+        { formId: formId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!data.success) {
         toast.error(data.message);
         return;

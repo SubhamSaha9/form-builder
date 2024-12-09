@@ -22,9 +22,13 @@ const EditForm = () => {
 
   const getFormData = async () => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/forms/${formId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.post(
+        `${BASE_URL}/forms/get-form`,
+        { formId: formId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!data.success) {
         toast.error(data.message);
         return;
@@ -34,7 +38,7 @@ const EditForm = () => {
       setSelectedBackground(data.data.background && data.data.background);
       setSelectedStyle(data.data.style && JSON.parse(data.data.style));
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data.message);
       console.log(error);
     }
   };
@@ -75,7 +79,7 @@ const EditForm = () => {
       toast.success(data.message);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
       setUpdateTrigger(false);
     }
   };
@@ -109,8 +113,8 @@ const EditForm = () => {
   }, [updateTrigger]);
 
   useEffect(() => {
-    getFormData();
-  }, []);
+    formId && getFormData();
+  }, [formId]);
   return (
     <div className="p-5">
       <div className=" flex justify-between items-center">

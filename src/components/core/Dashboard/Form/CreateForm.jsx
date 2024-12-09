@@ -77,7 +77,7 @@ const CreateForm = () => {
                 <Button variant="destructive" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleCreateForm} disabled={loading}>
+                <Button onClick={() => handleCreateForm()} disabled={loading}>
                   {loading ? <Loader2 className="animate-spin" /> : "Create"}
                 </Button>
               </div>

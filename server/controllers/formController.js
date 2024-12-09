@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Form = require("../models/form");
 const Response = require("../models/response");
 
@@ -31,12 +32,12 @@ exports.createForm = async (req, res) => {
 }
 
 exports.getForm = async (req, res) => {
-    const { formId } = req.params;
+    const { formId } = req.body;
     try {
         if (!formId) {
-            return res.status(200).json({
+            return res.status(401).json({
                 success: false,
-                message: "All fields are required",
+                message: "All fields are required from getForm",
             })
         }
 
@@ -134,6 +135,52 @@ exports.submitForm = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Response submitted."
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getUserForm = async (req, res) => {
+    try {
+        const mongooseUserId = new mongoose.Types.ObjectId(req.user.id);
+        const allForms = await Form.find({ createdBy: mongooseUserId });
+
+        return res.status(200).json({
+            success: true,
+            message: "Forms fetched successfully.",
+            data: allForms
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.deleteForm = async (req, res) => {
+    try {
+        const { formId } = req.body;
+        const mongooseUserId = new mongoose.Types.ObjectId(formId);
+        if (!formId) {
+            return res.status(201).json({
+                success: false,
+                message: "All fields are required!",
+            });
+        }
+
+        const deletedResponse = await Response.deleteMany({ formRef: formId });
+        const form = await Form.findByIdAndDelete(formId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Forms deleted successfully.",
         })
     } catch (error) {
         console.log(error);

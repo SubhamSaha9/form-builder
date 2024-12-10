@@ -10,14 +10,15 @@ const formRoute = require("./routes/form");
 
 connect();
 
-app.use(express.json());
-app.use(cookieParser())
 app.use(
     cors({
         origin: process.env.ORIGIN,
         credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
     })
 );
+app.use(express.json());
+app.use(cookieParser())
 
 app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/forms", formRoute);

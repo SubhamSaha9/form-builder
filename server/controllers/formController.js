@@ -167,7 +167,7 @@ exports.getUserForm = async (req, res) => {
 exports.deleteForm = async (req, res) => {
     try {
         const { formId } = req.body;
-        const mongooseUserId = new mongoose.Types.ObjectId(formId);
+        const mongooseFormId = new mongoose.Types.ObjectId(formId);
         if (!formId) {
             return res.status(201).json({
                 success: false,
@@ -175,7 +175,7 @@ exports.deleteForm = async (req, res) => {
             });
         }
 
-        const deletedResponse = await Response.deleteMany({ formRef: formId });
+        const deletedResponse = await Response.deleteMany({ formRef: mongooseFormId });
         const form = await Form.findByIdAndDelete(formId);
 
         return res.status(200).json({

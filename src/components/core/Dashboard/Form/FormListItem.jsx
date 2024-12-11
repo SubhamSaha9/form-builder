@@ -86,7 +86,6 @@ const FormListItem = ({ formRecord, jsonForm, refreshData }) => {
               import.meta.env.VITE_PUBLIC_URL + "/ai-form/" + formRecord?._id,
             title: jsonForm?.formTitle,
           }}
-          onClick={() => console.log("shared successfully!")}
         >
           <Button variant="outline" size="sm" className="flex gap-2">
             {" "}

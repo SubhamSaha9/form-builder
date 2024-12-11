@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { RWebShare } from "react-web-share";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const EditForm = () => {
@@ -131,9 +132,20 @@ const EditForm = () => {
           >
             <SquareArrowOutUpRight className="h-5 w-5" /> Live Preview
           </Button>
-          <Button className="flex gap-2 bg-green-600 hover:bg-green-700">
-            <Share2 /> Share
-          </Button>
+
+          <RWebShare
+            data={{
+              text:
+                jsonForm?.formHeading +
+                " , Build your form in seconds with AI form Builder ",
+              url: import.meta.env.VITE_PUBLIC_URL + "/ai-form/" + formId,
+              title: jsonForm?.formTitle,
+            }}
+          >
+            <Button className="flex gap-2 bg-green-600 hover:bg-green-700">
+              <Share2 /> Share
+            </Button>
+          </RWebShare>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

@@ -6,7 +6,7 @@ exports.createForm = async (req, res) => {
     const { form } = req.body;
     try {
         if (!form) {
-            return res.status(200).json({
+            return res.status(201).json({
                 success: false,
                 message: "All fields are required",
             })
@@ -171,7 +171,7 @@ exports.deleteForm = async (req, res) => {
         if (!formId) {
             return res.status(201).json({
                 success: false,
-                message: "All fields are required! from delete",
+                message: "All fields are required! from",
             });
         }
 

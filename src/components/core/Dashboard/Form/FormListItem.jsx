@@ -15,13 +15,15 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { RWebShare } from "react-web-share";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const FormListItem = ({ formRecord, jsonForm, refreshData }) => {
   const { token } = useSelector((state) => state.auth);
-
+  const path = useLocation();
+  console.log("path", path);
   const onDeleteForm = async (id) => {
     try {
       const { data } = await axios.post(
@@ -75,11 +77,22 @@ const FormListItem = ({ formRecord, jsonForm, refreshData }) => {
       <h2 className="text-sm text-gray-500">{jsonForm?.formHeading}</h2>
       <hr className="my-4"></hr>
       <div className="flex justify-between">
-        <div className="">
+        <RWebShare
+          data={{
+            text:
+              jsonForm?.formHeading +
+              " , Build your form in seconds with AI form Builder ",
+            url:
+              import.meta.env.VITE_PUBLIC_URL + "/ai-form/" + formRecord?._id,
+            title: jsonForm?.formTitle,
+          }}
+          onClick={() => console.log("shared successfully!")}
+        >
           <Button variant="outline" size="sm" className="flex gap-2">
+            {" "}
             <Share className="h-5 w-5" /> Share
           </Button>
-        </div>
+        </RWebShare>
         <Link to={"/edit-form/" + formRecord?._id}>
           <Button className="flex gap-2" size="sm">
             <Edit className="h-5 w-5" /> Edit

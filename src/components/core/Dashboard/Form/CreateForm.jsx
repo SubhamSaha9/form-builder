@@ -39,6 +39,10 @@ const CreateForm = () => {
         return;
       }
       const output = JSON.parse(result.response.text())[0];
+      if (!output) {
+        toast.error("No output from AI");
+        return;
+      }
       const { data } = await axios.post(
         `${BASE_URL}/forms/create-form`,
         { form: JSON.stringify(output) },

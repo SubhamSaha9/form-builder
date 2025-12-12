@@ -21,6 +21,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route element={<Dashboard />}>
           <Route path="/dashboard/forms" element={<Form />} />
+          <Route path="/dashboard/responses" element={<Response />} />
         </Route>
         <Route path="/edit-form/:formId" element={<EditForm />} />
         <Route path="/ai-form/:formId" element={<AiForm />} />

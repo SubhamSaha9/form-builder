@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Form from "./components/core/Dashboard/Form";
 import EditForm from "./pages/EditForm";
 import AiForm from "./pages/AiForm";
+import Response from "./components/core/Dashboard/Response";
 
 function App() {
   const [count, setCount] = useState(0);

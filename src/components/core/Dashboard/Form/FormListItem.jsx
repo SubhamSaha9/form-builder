@@ -15,15 +15,13 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RWebShare } from "react-web-share";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const FormListItem = ({ formRecord, jsonForm, refreshData }) => {
   const { token } = useSelector((state) => state.auth);
-  const path = useLocation();
-  console.log("path", path);
   const onDeleteForm = async (id) => {
     try {
       const { data } = await axios.post(

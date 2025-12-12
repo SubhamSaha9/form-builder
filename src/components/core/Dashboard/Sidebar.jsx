@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { sideBarMenu } from "@/utils/Constants";
 import { PlusIcon } from "lucide-react";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,22 +33,25 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="h-screen shadow-md border">
       <div className="p-5">
         {sideBarMenu.map((menu, i) => (
-          <div
+          <Link
             key={i}
+            to={menu.path}
             className={`flex items-center gap-3 p-4 mb-3 hover:bg-primary hover:text-white rounded-lg cursor-pointer text-gray-500 ${
               pathname === menu.path && "bg-primary text-white"
             }`}
           >
             <menu.icon />
             {menu.name}
-          </div>
+          </Link>
         ))}
       </div>
       <div className="fixed bottom-10 p-6 w-64">
@@ -59,28 +62,26 @@ const Sidebar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="flex gap-2 bg-gray-100 hover:bg-gray-200 shadow-sm p-2 rounded cursor-pointer">
-              <img
-                src="https://api.dicebear.com/5.x/initials/svg?seed=subham saha"
-                alt="profile"
-                className="rounded h-8"
-              />
+              <img src={user.image} alt="profile" className="rounded h-8" />
               <div className="flex flex-col items-start justify-center text-xs">
-                <b>Subham Saha</b>
-                <p className="text-gray-500 18">sahasubham7478@gma... </p>
+                <b>
+                  {user.firstName} {user.lastName}
+                </b>
+                <p className="text-gray-500 18">
+                  {user.email.split("").splice(0, 19).join("")}...
+                </p>
               </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right" sideOffset={10} className="w-60">
             <DropdownMenuLabel>
               <div className="flex gap-2 shadow-sm p-2 rounded cursor-pointer">
-                <img
-                  src="https://api.dicebear.com/5.x/initials/svg?seed=subham saha"
-                  alt="profile"
-                  className="rounded h-8"
-                />
+                <img src={user.image} alt="profile" className="rounded h-8" />
                 <div className="flex flex-col items-start justify-center text-xs">
-                  <b>Subham Saha</b>
-                  <p className="text-gray-500 18">sahasubham7478@gmail.com </p>
+                  <b>
+                    {user.firstName} {user.lastName}
+                  </b>
+                  <p className="text-gray-500 18">{user.email} </p>
                 </div>
               </div>
             </DropdownMenuLabel>

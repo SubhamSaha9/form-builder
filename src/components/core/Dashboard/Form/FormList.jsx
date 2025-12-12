@@ -8,8 +8,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const FormList = () => {
   const [formList, setFormList] = useState([]);
   const { token } = useSelector((state) => state.auth);
-
+  const [loading, setLoading] = useState(false);
   const getFormList = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get(`${BASE_URL}/forms/get-all-forms`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -21,9 +22,11 @@ const FormList = () => {
       }
 
       setFormList(data.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message || error.message);
+      setLoading(false);
     }
   };
 
@@ -32,13 +35,19 @@ const FormList = () => {
   }, []);
   return (
     <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-5">
-      {formList.map((form, index) => (
-        <FormListItem
-          jsonForm={JSON.parse(form.form)}
-          formRecord={form}
-          refreshData={getFormList}
-        />
-      ))}
+      {loading ? (
+        <div className="font-bold text-lg">Loading...</div>
+      ) : (
+        <>
+          {formList.map((form, index) => (
+            <FormListItem
+              jsonForm={JSON.parse(form.form)}
+              formRecord={form}
+              refreshData={getFormList}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 };

@@ -10,6 +10,6 @@ router.post("/edit-field", auth, editFormField);
 router.post("/submit-form", auth, submitForm);
 router.post("/delete-form", auth, deleteForm);
 router.get("/get-all-forms", auth, getUserForm);
-router.get("/get-all-response", auth, getUserFormResponse);
+router.post("/get-all-response", auth, getUserFormResponse);
 
 module.exports = router;

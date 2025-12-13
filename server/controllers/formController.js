@@ -168,7 +168,14 @@ exports.getUserForm = async (req, res) => {
 
 exports.getUserFormResponse = async (req, res) => {
     try {
-        const mongooseFormId = new mongoose.Types.ObjectId(req.formId);
+        const { formId } = req.body;
+        if (!formId) {
+            return res.status(201).json({
+                success: false,
+                message: "Please provide formId.",
+            })
+        }
+        const mongooseFormId = new mongoose.Types.ObjectId(formId);
         const allResponses = await Response.find({ formRef: mongooseFormId });
         return res.status(200).json({
             success: true,

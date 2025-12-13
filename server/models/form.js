@@ -18,7 +18,13 @@ const formSchema = new mongoose.Schema({
     },
     style: {
         type: String,
-    }
+    },
+    response: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Response
+        }
+    ]
 },
     { timestamps: true }
 )

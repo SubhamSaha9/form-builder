@@ -91,13 +91,13 @@ const FormUi = ({
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      formRef.reset();
+
       toast.dismiss(toastId);
       if (!data.success) {
         toast.error(data.message);
         return;
       }
-
+      setFormData(null);
       toast.success(data.message);
     } catch (error) {
       toast.dismiss(toastId);

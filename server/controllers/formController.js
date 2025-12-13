@@ -125,12 +125,15 @@ exports.submitForm = async (req, res) => {
                 message: "All Fields are required",
             });
         }
+        const form = await Form.findById(formId).populate("createdBy");
 
         const formResponse = await Response.create({
             jsonResponse: formData,
-            createdBy: req.user.id,
+            createdBy: form.createdBy._id,
             formRef: formId,
         });
+        form.response.push(formResponse._id);
+        await form.save();
 
         return res.status(200).json({
             success: true,
@@ -149,11 +152,28 @@ exports.getUserForm = async (req, res) => {
     try {
         const mongooseUserId = new mongoose.Types.ObjectId(req.user.id);
         const allForms = await Form.find({ createdBy: mongooseUserId });
-
         return res.status(200).json({
             success: true,
             message: "Forms fetched successfully.",
             data: allForms
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getUserFormResponse = async (req, res) => {
+    try {
+        const mongooseFormId = new mongoose.Types.ObjectId(req.formId);
+        const allResponses = await Response.find({ formRef: mongooseFormId });
+        return res.status(200).json({
+            success: true,
+            message: "Responses fetched successfully.",
+            data: allResponses
         })
     } catch (error) {
         console.log(error);

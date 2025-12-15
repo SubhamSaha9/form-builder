@@ -10,6 +10,8 @@ import Form from "./components/core/Dashboard/Form";
 import EditForm from "./pages/EditForm";
 import AiForm from "./pages/AiForm";
 import Response from "./components/core/Dashboard/Response";
+import OpenRoute from "./components/core/Auth/OpenRoute";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,13 +20,48 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route
+          path="/auth"
+          element={
+            <OpenRoute>
+              <Auth />
+            </OpenRoute>
+          }
+        />
         <Route element={<Dashboard />}>
-          <Route path="/dashboard/forms" element={<Form />} />
-          <Route path="/dashboard/responses" element={<Response />} />
+          <Route
+            path="/dashboard/forms"
+            element={
+              <PrivateRoute>
+                <Form />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard/responses"
+            element={
+              <PrivateRoute>
+                <Response />
+              </PrivateRoute>
+            }
+          />
         </Route>
-        <Route path="/edit-form/:formId" element={<EditForm />} />
-        <Route path="/ai-form/:formId" element={<AiForm />} />
+        <Route
+          path="/edit-form/:formId"
+          element={
+            <PrivateRoute>
+              <EditForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ai-form/:formId"
+          element={
+            <PrivateRoute>
+              <AiForm />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );

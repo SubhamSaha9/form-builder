@@ -44,6 +44,7 @@ const FormList = () => {
               jsonForm={JSON.parse(form.form)}
               formRecord={form}
               refreshData={getFormList}
+              key={index}
             />
           ))}
         </>

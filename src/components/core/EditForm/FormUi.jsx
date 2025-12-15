@@ -80,6 +80,13 @@ const FormUi = ({
     }
   };
 
+  const handleCheckBox = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const onFormSubmit = async (e) => {
     e.preventDefault();
     const toastId = toast.loading("Submitting form...");
@@ -212,9 +219,7 @@ const FormUi = ({
                 {!field?.options && (
                   <Checkbox
                     className="h-1 w-1"
-                    onCheckedChange={(v) =>
-                      handleCheckboxChange(field?.label, field?.label, v)
-                    }
+                    onCheckedChange={(e) => handleCheckBox(field?.label, e)}
                   />
                 )}
                 <label htmlFor={field?.label} className="text-xs text-gray-500">

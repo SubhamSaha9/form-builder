@@ -34,6 +34,7 @@ import {
   Users,
 } from "lucide-react";
 import { useSelector } from "react-redux";
+import CreateForm from "./Form/CreateForm";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
@@ -55,10 +56,13 @@ const Sidebar = () => {
         ))}
       </div>
       <div className="fixed bottom-10 p-6 w-64">
-        <Button className="flex items-center gap-3 w-full mb-4">
+        {/* <Button className="flex items-center gap-3 w-full mb-4">
           <PlusIcon />
           Create Form
-        </Button>
+        </Button> */}
+        <div className="w-full mb-4">
+          <CreateForm />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="flex gap-2 bg-gray-100 hover:bg-gray-200 shadow-sm p-2 rounded cursor-pointer">

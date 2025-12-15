@@ -62,8 +62,8 @@ const CreateForm = () => {
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="p-0 bg-transparent m-0 ">
-          <Button>
+        <DialogTrigger className="p-0 bg-transparent m-0 w-full">
+          <Button className="w-full">
             <PlusIcon /> Create Form
           </Button>
         </DialogTrigger>

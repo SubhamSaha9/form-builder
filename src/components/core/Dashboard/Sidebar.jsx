@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { sideBarMenu } from "@/utils/Constants";
 import { PlusIcon } from "lucide-react";
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,12 +33,25 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CreateForm from "./Form/CreateForm";
+import toast from "react-hot-toast";
+import { setToken, setUser } from "@/slice/authSlice";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+
+  const handleLogOut = () => {
+    dispatch(setToken(null));
+    dispatch(setUser(null));
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    toast.success("Logged Out successfully");
+    navigate("/");
+  };
   return (
     <div className="h-screen shadow-md border">
       <div className="p-5">
@@ -140,7 +153,7 @@ const Sidebar = () => {
               <span>Support</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogOut}>
               <LogOut />
               <span>Log out</span>
             </DropdownMenuItem>

@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Hero = () => {
+  const { token } = useSelector((state) => state.auth);
   return (
     <section className="bg-gray-50">
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen ">
@@ -22,7 +24,7 @@ const Hero = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               className="block w-full rounded bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-purple-600 hover:text-white focus:outline-none focus:ring active:bg-purple-500 sm:w-auto"
-              to="#"
+              to={token ? "/dashboard/forms" : "/auth"}
             >
               <span className="text-2xl">+</span> Create Form
             </Link>

@@ -1,4 +1,4 @@
-import { LibraryBig, LineChart, MessagesSquare, Shield } from "lucide-react";
+import { Github, Home, LayoutDashboard, LibraryBig, LineChart, LogOut, MessagesSquare, Shield } from "lucide-react";
 
 export const sideBarMenu = [
     {
@@ -21,4 +21,39 @@ export const sideBarMenu = [
         icon: Shield,
         path: "/dashboard/upgrade"
     },
+]
+
+export const navMenuHome = [
+    {
+        name: "Dashboard",
+        to: "/dashboard/forms",
+        icon: LayoutDashboard,
+    },
+    {
+        name: "GitHub",
+        to: "https://github.com/SubhamSaha9",
+        icon: Github,
+    },
+    {
+        name: "Logout",
+        to: "/logout",
+        icon: LogOut,
+    }
+]
+export const navMenuDash = [
+    {
+        name: "Home",
+        to: "/",
+        icon: Home,
+    },
+    {
+        name: "GitHub",
+        to: "https://github.com/SubhamSaha9",
+        icon: Github,
+    },
+    {
+        name: "Logout",
+        to: "/logout",
+        icon: LogOut,
+    }
 ]

@@ -1,3 +1,4 @@
+import Header from "@/components/common/Header";
 import Controller from "@/components/core/EditForm/Controller";
 import FormUi from "@/components/core/EditForm/FormUi";
 import { Button } from "@/components/ui/button";
@@ -118,6 +119,7 @@ const EditForm = () => {
   }, [formId]);
   return (
     <div className="p-5">
+      <Header />
       <div className=" flex justify-between items-center">
         <h2
           className="flex gap-2 items-center my-5 cursor-pointer hover:scale-105 transition-all delay-75 "
